@@ -11,19 +11,24 @@ from itertools import tee
 from itertools import compress
 current_time = datetime.now().strftime('%Y-%m-%d')
 import scipy.stats
+
+
+# TODO
+__all__ = []
+
 def pairwise(iterable):
     # pairwise('ABCDEFG') --> AB BC CD DE EF FG
     a, b = tee(iterable)
     next(b, None)
     return zip(a, b)
 
-if os.name == 'posix':
-    plt.rcParams['font.sans-serif'] = ['Songti SC']
-else:
-    plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
-    plt.rcParams['axes.unicode_minus'] = False
-
-
+def set_font():
+    if os.name == 'posix':
+        plt.rcParams['font.sans-serif'] = ['Songti SC']
+    else:
+        plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
+        plt.rcParams['axes.unicode_minus'] = False
+# 下载bundle
 HOME = expanduser("~")
 rawpath = f'{HOME}/.rqalpha/bundle'
 if not os.path.exists(rawpath):
@@ -177,7 +182,7 @@ def get_data_InterestRate(start_date: str,
     df = data[trade_date]
     return df
 
-
+# TODO  增加特雷诺比率
 class RiskAssessor(object):
 
     def __init__(self, simple_return_series, simple_benchmark_series, simple_riskfree_series, freq = 252, logarithm = False):
@@ -193,7 +198,7 @@ class RiskAssessor(object):
             self.rp = simple_return_series
             self.rm = simple_benchmark_series
             self.rf = simple_riskfree_series
-            
+         
         self.freq = freq
         self.pnl = (1+simple_return_series).cumprod()
         
@@ -245,8 +250,6 @@ class RiskAssessor(object):
         self.drawdownmax = self.drawdown.max()
         self.durationmax = self.duration.max()
     
-
-
 
 
 class MultiRiskAssessor(RiskAssessor):
